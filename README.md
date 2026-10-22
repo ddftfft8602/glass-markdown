@@ -1,233 +1,153 @@
 # Glass Markdown · 轻墨
 
-一个本地运行的 VS Code Markdown 编辑器，基于 Office Viewer 4.2.0 随附 MIT 许可的 Markdown/Vditor 组件制作。独立扩展 ID：`local-glass.glass-markdown`。
+A local Markdown editor for VS Code and Cursor. Extension id: `local-glass.glass-markdown`.
 
-标题通过字号、字重与留白区分层级，并随正文字号同步缩放。只有输入光标所在标题显示浅灰 `#`；加粗、斜体、删除线和行内代码的标记也只在光标进入对应文字时显示。移到别处或离开正文后隐藏，鼠标悬停不会让符号出现。当前段落保留极淡的背景和换行提示。**标记透明度固定，没有额外的透明度设置。** 这些视觉提示不写进 Markdown 文件。
+[English](#english) · [中文](#中文)
 
-## 安装与打开
+## English
 
-1. 在 VS Code 中按 `Ctrl+Shift+P`，执行 **Extensions: Install from VSIX… / 扩展：从 VSIX 安装…**。
-2. 选择交付的 `glass-markdown-0.4.28.vsix`，执行 **Developer: Reload Window / 开发人员：重新加载窗口**。
-3. 新版首次启动自动把 `.md`、`.markdown`、`.mdown` 关联到 **Glass Markdown · 轻墨**。之后正常打开 Markdown 文件即可自动进入插件，兼容处理自动生效。
-4. 如果升级前文件标签已经打开，关闭该标签再打开一次。已有工作区或特定文件的单独编辑器关联仍有更高优先级，可在标签的“重新打开方式 → 配置默认编辑器”中调整。
+### What it is
 
-默认关联只配置一次；以后手动选择其他默认编辑器，不会在每次启动时被强制改回。需要重新设置时，可执行 **Glass Markdown: 设为默认 Markdown 编辑器**。仍可从“重新打开方式”选择文本编辑器查看源码。
+Glass Markdown edits Markdown on your machine. It is an independent extension built from the MIT-licensed Markdown / Vditor files that ship with Office Viewer 4.2.0. Office Viewer can stay installed; this extension has its own id and display name.
 
-原来的 Office Viewer 可以继续保留。此插件使用独立名称，不会覆盖原扩展。
+Headings are set apart by size, weight, and spacing, and they scale with the body font size. The pale `#` marker, and the markers for bold, italic, strikethrough, and inline code, show only while the caret is inside that text. Those hints stay out of the Markdown file. Marker opacity is fixed.
 
-## 0.4.28：识别网页粘贴的 LaTeX 公式
+### Install
 
-齿轮设置 → 公式识别 → **粘贴时识别无美元符号公式**（默认关闭）。开启后，粘贴 `\(…\)`、`\[…\]` 以及网页显示成 `(\epsilon)` 的公式时自动转成标准 Markdown 公式，同时保留富文本表格、加粗和列表。代码、路径和普通括号不自动推测为公式。开关只影响后续粘贴；已经粘贴为普通文字的内容可在开启后重新粘贴。VS Code 与 Cursor 分别记住各自设置。
+Install the packaged extension from the GitHub release.
 
-## 0.4.26：空行内公式保存保护
+1. Open the [v0.4.28 release](https://github.com/ddftfft8602/glass-markdown/releases/tag/v0.4.28) and download [`glass-markdown-0.4.28.vsix`](https://github.com/ddftfft8602/glass-markdown/releases/download/v0.4.28/glass-markdown-0.4.28.vsix).
+2. In VS Code or Cursor, run **Extensions: Install from VSIX…**.
+3. Select `glass-markdown-0.4.28.vsix`, then run **Developer: Reload Window**.
+4. The first launch associates `.md`, `.markdown`, and `.mdown` with **Glass Markdown · 轻墨**. Open a Markdown file to enter the editor.
+5. If a Markdown tab was already open, close it and open the file again. A workspace or per-file editor association still wins. Change it from the tab’s **Reopen With → Configure default editor**.
 
-清空行内公式后，保存和重新解析不再生成容易被误认成独立公式开头的 `$$`，也不会因空源码导致解析异常。公式编辑框暂时为空时仍可继续输入或撤销；后续正文、标题和独立公式保持各自的结构。离开公式后仅移动光标的延迟快照不再产生额外撤销步骤，也不会清除重做记录。
+The default association is written once. A later manual choice is left in place. Run **Glass Markdown: 设为默认 Markdown 编辑器** to apply the association again. **Reopen With** can still open the text editor.
 
-## 0.4.25：按选区添加和取消列表
+### Features
 
-选中多段正文后，添加编号会把每段变成同一个列表中的连续条目。取消编号只影响选中的条目；没有选区时只取消光标所在的一项，保留其余编号。混合选中已有条目和普通段落时统一添加编号。项目符号和任务列表采用同样的操作范围，公式、文字格式和备注关联保留，支持撤销与重做。
+- WYSIWYG, instant render, and a separate Markdown source view.
+- Headings, bold, italic, strikethrough, links, quotes, lists, tasks, tables, code blocks, undo/redo, and find/replace.
+- Outline, block drag, table editing, footnotes and text notes, YAML front matter, and local WikiLinks.
+- Font, size, line height, paragraph spacing, page width, light and dark themes, code themes, and typewriter mode.
+- Font color, highlight, image size, and drag-to-resize.
+- Paste, drop, or pick images. They are saved in an `assets` folder next to the Markdown file.
+- KaTeX math, Mermaid diagrams, Markmap mind maps, a local WikiLink graph, and SVG export.
+- Local HTML, PDF, and DOCX export, with outline, fonts, theme, and PDF page size and margins.
+- Optional paste-time recognition of LaTeX that has no dollar delimiters (off by default: gear menu → formula recognition).
+- Formula source search, caret-scoped syntax markers, a collapsible toolbar, and a compact context menu.
+- `Ctrl+S` save, `Ctrl+B` bold, `Ctrl+F` find, and `Ctrl+Alt+E` back to the VS Code text editor.
+- No account, subscription, activation service, or telemetry. The editor runtime is bundled in the extension.
 
-## 0.4.24：更清晰的标题层级
+Version history is in [`CHANGELOG.md`](CHANGELOG.md).
 
-正文为 16px 时，一至六级标题依次为 30 / 25 / 21 / 18 / 16 / 16px，随正文字号同比缩放。一、二级加粗并增加段前留白，一级附一条淡分隔线；三级半粗，四至六级逐渐收紧，五级加粗、六级略淡。两种编辑模式和深浅主题均适用，文末备注保留低调样式。
+### Performance notes
 
-## 0.4.23：按源码搜索并定位公式
+On a ~171 KB sample document with 515 inline formulas, the longest main-thread task after typing in WYSIWYG mode dropped from 1568 ms to 241 ms, and the median instant-render input response dropped from 241 ms to 164 ms. On a ~61 KB sample document, six runs in each editing mode showed the median time from expanding a formula to the following paint frame drop from about 306 ms / 434 ms to 193 ms / 259 ms. The runs used the real editor page and a simulated VS Code message host. Input response is the time from the key event to the second animation frame. Results vary with machine, document, and load. Very long documents can still pause briefly.
 
-在搜索框输入 LaTeX 代码，可以查找行内公式、独立公式和 `math` 代码块。上一个／下一个或 Shift+Enter／Enter 会滚动到对应的渲染公式，并显示淡色高亮，搜索时保持公式收起。双击公式仍可编辑源码。
+### Offline scope
 
-命中折叠章节或备注时，仅展开相关区域；搜索框保留焦点。同一公式内重复出现的代码按实际出现次数计数，连续命中同一公式时停留在该公式。高亮不进入文档、导出或撤销记录，关闭搜索即清除。
+This release edits Markdown. Excel, Word, and PDF editing from Office Viewer, and a Git workspace, are outside this extension.
 
-## 0.4.22：标题粘贴与含公式列表复制
+AI rewrite, remote image-host upload, and PlantUML rendering that needs a server are outside the offline feature set. Use a local image or a data URI; remote images stay as links and are left on the network. Local resources must be in the document directory or the opened workspace.
 
-- 复制正文标题的文字而不带 `##` 后，可先粘贴再补标题前缀，也可先输入前缀再粘贴；保留原来的加粗、斜体与文字内容。修复即时渲染模式行首 Home 落进加粗控制标记的问题。
-- 从行尾公式右侧空白处可反向拖选；复制多项有序列表时保留编号、正文及完整公式，Ctrl+C 与右键复制均支持。
-- 在行首输入 `##` 后，不换行空格和全角空格也可作为标题分隔符。普通正文、代码和公式中的这些空格保留原样，不增加不可见字符处理。
+Export uses a local Edge or Chrome and does not download a browser. If detection fails, set `glassMarkdown.chromiumPath`. HTML, PDF, and DOCX export all use that browser so formulas and diagrams are laid out locally. In DOCX, formulas and diagrams become images; text, headings, and tables stay editable. There is no native Word equation object.
 
-## 0.4.21：中文标点结尾的加粗
+The WikiLink graph reads at most 2,000 Markdown files in the current workspace. Saving an edit can normalize some Markdown. Opening a file and leaving it unedited does not write it back. When an external change conflicts, local edits stay in a separate unsaved document. The line-break arrow in the editor is a hint for the current paragraph.
 
-`**位置隐私：**保护位置` 可直接加粗“位置隐私：”，不需要在冒号或后续正文之间补空格。输入、Ctrl+B、工具栏、保存重开和 HTML 导出均支持这一写法；文件保留原来的双星号与标点。该标点边界兼容规则作用于双星号加粗。
+### Build and development
 
-## 0.4.14：备注末尾边界与再次点击编辑
-
-- 清理文字备注后由编辑器生成的零宽空格，消除可见文字末尾多余的光标停留位置；行尾退格直接编辑可见文字。旧的零宽空格被选中删除或剪切时，保留备注关联。
-- 保护删除相邻文字和合并段落时仍然存在的备注链接，仅恢复浏览器连带清理的隐藏关联符号，不恢复用户已删除的文字或段落。保存与撤销快照也排除该占位字符。
-- 第一次单击引用文字打开备注；弹窗打开后再次点击同一引用，关闭弹窗并将光标放到点击的位置。正文重新获得输入焦点，方便继续修改文字。
-
-## 0.4.13：修改备注引用文字时保留关联
-
-- 修复引用文字末尾退格、开头 Delete、选中部分文字删除或剪切时，隐藏的脚注关联及即时渲染链接符号被连带删除的问题。剩余文字仍可点击打开备注，文末来源随剩余文字更新，备注内容保留。
-- 处理加粗与普通文字之间的选区，保留格式；沿用浏览器提供的删除范围处理组合字符，使用原编辑器的输入、保存及撤销机制，不重载全文。界面中的备注装饰与标题光标提示排除出撤销记录，避免产生只撤销显示状态的额外步骤。
-- 将全部引用文字删空时保留普通编号脚注，仍可打开原备注；若要整条删除，使用备注弹窗中的“删除备注”。
-
-## 0.4.12：文末备注显示来源，设置输入保持焦点
-
-- 文末备注列表在内容前显示引用它的正文。例如正文“设计思路”的备注内容是 `test`，文末显示 `1. 设计思路：test`；点击正文后的弹窗仍只显示备注内容。
-- 文字备注使用选中的词语；普通编号脚注使用所在句子。共用一条备注的不同文字合并显示，相同文字去重。修改正文、撤销重做及删除备注后，来源提示随之更新。
-- 来源提示仅在编辑界面显示，不重复写入 Markdown 或备注内容；只有首段显示前缀，多段备注保持原有结构。
-- 调整数值时更新原设置控件，不再重建面板。连续输入、方向键增减、Enter 提交和 Tab 切换保持可用；保留焦点和面板滚动位置。同步其他设置时保留尚未输入完的数值，实际修改同一项的远端同步仍会更新该项。
-
-## 0.4.11：删除整条备注
-
-点击正文的备注文字或脚注编号，在弹窗右上角选择“删除备注”。这会删除同一条备注的全部入口及文末定义；文字备注保留原文字、加粗及公式等格式，只解除备注链接。普通脚注移除上标，剩余编号自动更新。其他备注、普通超链接和代码示例保持不变。
-
-删除会保存到当前文件，一次 Ctrl＋Z 可同时恢复全部入口和备注内容，支持重做及之前的编辑历史。删除最后一条备注时清理空的脚注区，保留继续输入的位置；长文不重新加载全文或跳到文末。
-
-## 0.4.10：文字备注、脚注浮窗和剪切修复
-
-- 齿轮设置中增加“备注弹窗”：宽度 220–900 px、最大高度 120–900 px、字号 10–32 px；默认分别为 360 / 420 / 14 px。内容超高时弹窗内滚动，窄窗口自动限制尺寸；设置即时生效、保存并同步，可单独恢复默认。正文已有字号设置保持独立。
-
-- 选中同一段内的文字，点击顶部链接图标旁的“插入脚注”（对话气泡图标），或右键菜单段落格式行的同名按钮，填写备注。选中的原文保留并显示为带点状下划线的链接；单击弹出备注，正文中不额外显示上标编号。
-- 没有选中文字时，在光标处插入普通编号脚注。已有 `[^1]` / `[^1]: 内容` 脚注可直接点击查看，支持备注中的多段文字、加粗、行内代码和公式；备注内容可选择复制。点击外面、滚动正文或 Esc 关闭，Ctrl＋点击仍可跳转定义。
-- 新增备注定义追加到同一 Markdown 文件的文末，自动避免标签重名；取消不修改文件，一次撤销可以同时撤掉正文标记和新定义。现有脚注定义不会被批量移动。备注编辑仍可在文末定义或源码中进行。
-- 文字备注使用普通链接加脚注关联保存，例如 `[差分隐私](#footnote:note-1)[^note-1]`，文末为 `[^note-1]: 解释内容`。`note-1` 只是文件内的关联标签；轻墨隐藏紧随文字链接的上标，只让文字本身可点击。其他 Markdown 阅读器需要支持脚注，可能仍显示上标，文字点击浮窗及 `#footnote:` 目标由轻墨处理。
-- 为避免破坏原有结构，文字备注目前用于同一段内、尚未添加链接的文本选区；公式源码、代码块及整篇源码视图不提供富文本插入入口。
-- 右键菜单默认展开段落格式；“更多操作”可单独展开，仍可手动收起段落格式。
-- 链接末尾输入普通文字、中文输入法或粘贴时，光标落到链接外；即时渲染的隐藏地址不会吞入新文字。链接内部文字、选区替换和显式地址编辑继续可用。
-- 修复 VS Code 宿主发起正文剪切时，浏览器忽略剪切事件内嵌套删除、导致只复制不删除的问题。剪切完成后删除原选区，支持保存和撤销重做；即时渲染剪掉整段加粗内容时也移除空的加粗符号。公式源码及 Markdown 源码继续使用原有剪切路径。
-
-## 0.4.9：阅读间距、图片缩放与源码位置
-
-- 在齿轮设置的排版区域，原有行间距明确标为“行间距（倍）”，旁边新增段前、段后间距。段落间距可填 0–96 px，留空或点击“恢复默认段落间距”使用原样式；页面宽度沿用已有选项。
-- 设置即时生效并通过现有本地设置机制保存，新打开的文档会沿用；不会写进 Markdown 正文。段落间距针对正文段落，不单独改变标题、公式块或代码块的外边距。
-- 双击图片后，可用滚轮、触控板双指捏合或触摸屏双指缩放；放大后拖动查看。缩放围绕鼠标或双指中心进行，预览栏提供缩小、当前比例、放大和“适应窗口”；点击比例回到原始尺寸。旋转、打开图片和关闭按钮保留，Esc 关闭。
-- 图片预览取消全屏背景模糊和图片入场动画；连续缩放合并到每帧更新，关闭时释放手势监听。超大图片本身的加载、解码速度仍取决于图片与设备。
-- 顶部 `</>`“Markdown 源码”首次打开时按当前阅读进度定位，此后记住源码自身的滚动位置和选区；切回编辑视图恢复原位置。仅查看源码不再重新设置整篇内容或清空撤销历史。
-
-## 0.4.8：独立公式粘贴不额外增加空行
-
-- 光标前有文字时，独立公式接在下面；光标在行首或空行时直接使用当前位置；光标后的文字紧接在公式下面，不生成额外空段落。
-- 行尾已有换行时，拆分后的段落边界替代一次原有换行，避免后文开头多出一行；原本手动留出的其他空段落保持不变。
-- 公式后没有正文时，光标保留在公式后的输入位置，等实际输入时再生成正文段落；连续粘贴也不再夹入空段落。
-- 本次保留 0.4.7 的字体、公式上下间距和全部 CSS，不通过压缩显示间距掩盖空行。`$...$` 行内公式仍随文字排列，`math` 围栏保留原类型。
-
-## 0.4.7：独立公式按光标位置粘贴
-
-- 粘贴单个或多个独立公式时，段落开头直接插在文字前，空段落直接使用当前位置；段落中间则保留前文、插入公式，再将后文接到下面。
-- 支持 `math` 围栏、`$$...$$` 和已支持的 `\[...\]` 独立公式，键盘粘贴、富文本 math 代码块与右键菜单粘贴使用相同规则。`math` 围栏保留原类型，不批量转换成 `$$`。
-- 前后文字的加粗、链接、标题层级和已有行内公式保持可用；粘贴后可继续输入，并支持保存、撤销和重做。
-- `$...$` 仍是随正文排列的行内公式；独立公式继续居中显示。段落位置按实际光标和文档结构处理，不按窗口宽度导致的自动折行判断。
-- 标准 Markdown 的代码围栏与公式渲染是两层：`math` 围栏本身是合法代码块，将其渲染成公式需要数学扩展。GitHub 也支持此写法；切换到其他编辑器时需确认其数学扩展支持。
-
-## 0.4.6：长文输入、撤销与保存性能
-
-- 全文始终正常排版，快速滚动、目录和文内跳转继续使用真实位置；没有增加屏外延迟渲染、空白占位或虚拟列表。
-- 即时渲染模式编辑段落时复用没有变化的公式节点；为相同源码和选项的 KaTeX 输出增加容量限制缓存。公式源码、中文输入、选取复制和撤销重做保持原有行为。
-- 撤销快照排除光标提示、公式加载和空编辑框的临时显示状态，避免几百个公式的界面变化被误算成正文编辑；开始输入后不再反复比较同一份初始快照。
-- 保存转换使用行内公式的原始源码，跳过重复的 KaTeX 显示节点。只精简供转换器使用的临时副本，正文中的公式仍完整显示。
-- 公式、引用与 Mermaid 补充检查只处理发生变化的内容；滚动和普通正文输入不再遍历全文刷新图表。
-- 本机约 171 KB、含 515 处行内公式的论文测试中，所见即所得模式输入结束后的最长主线程任务从 1568 ms 降到 241 ms；即时渲染模式输入响应中位数从 241 ms 降到 164 ms。测量使用真实编辑器页面和模拟 VS Code 消息端，输入响应以按键到第二个动画帧近似；结果会随机器、文档及负载变化，超长文档仍可能短暂停顿。
-
-## 0.4.5：表格复制与输入时的公式预览
-
-- Ctrl+C 与紧凑右键菜单复制跨单元格选区时，保留 Markdown 表格的行列、表头、公式及文字格式；单个单元格内的普通文字选择保持原行为。
-- 剪贴板同时提供结构完整的 HTML 表格，便于粘贴到支持富文本的应用；HTML 中公式保留 `$...$` 源码，不转换成 Word 原生公式。只选数据行时使用空表头，不把第一行数据当成表头。
-- 两种剪贴板格式粘贴回轻墨均保留公式与表格结构；“复制为纯文本”提供 Markdown 表格，“复制为 HTML”提供可复用的表格 HTML。
-- 即时渲染模式编辑含多处行内公式的段落时，待渲染公式在页面绘制前刷新，避免每次输入短暂露出 TeX。中文输入法组合输入与提交、撤销重做及显式公式编辑保持可用。
-
-## 0.4.4：公式上方的偶发空行
-
-修复即时渲染模式下 math 代码围栏的隐藏源码仍占用一行高度的问题。首次打开、切换模式或重新渲染后，公式与展开再收起后的间距保持一致。只调整隐藏源码框的布局，不删除正文空行；Ctrl+Enter 在公式后新建正文、行内公式和普通代码块保持原有行为。
-
-## 0.4.3：公式响应速度与统一预览
-
-- 只展开、选取或复制公式再收起时，不再重复转换整篇文档；已有公式预览直接复用。修改公式后仍更新预览、保存并支持撤销/重做。
-- 减少源码编辑框初始化和重复设置选区的开销。对本机约 61 KB 长文的两种编辑模式进行各 6 次测量，展开至后续绘制帧的中位数分别从约 306/434 ms 降至 193/259 ms；这是本机浏览器测试数据，复杂长文仍可能有短暂停顿。
-- `$$...$$` 独立公式和 math 围栏代码块的预览统一为居中、透明背景；`$...$` 行内公式仍在原句内，既不改成独立公式，也不批量改写文件。
-- 保留 0.4.2 的公式源码选取、复制和 Alt+左右方向键切换标签。安装后请在扩展详情核对版本 **0.4.3**，并重新加载窗口，让已打开的编辑器也载入新版。
-
-## 公式源码复制与标签切换（0.4.2）
-
-- 修复双击独立公式后源码立即折叠：展开后第二次点击落在只读标题栏时，保留公式编辑焦点。点击正文其他位置仍按原行为收起。
-- 公式源码可鼠标选择、Ctrl+C 复制或通过紧凑右键菜单复制；多行源码的右键复制保留换行。
-- 在公式、代码块、正文和 Markdown 源码视图中，**Alt+← / Alt+→** 切换当前 VS Code 编辑器组内的上一个 / 下一个标签。即使正在选中文字也可使用；普通方向键仍在文本中移动，带 Shift/Ctrl/Meta 或输入法组合状态不触发该操作。
-- 即时渲染模式的行内公式仍沿用原生的段落内源码显示方式。
-
-## 清晰引用与文内跳转（0.4.1）
-
-- `保证 [\[10\]](#ref-10)、[\[11\]](#ref-11)。` 在两种模式中显示为简洁的 `[10]`、`[11]`。即时渲染模式光标进入引用时也不展开地址、转义符和语法括号，原始链接内容保留。
-- **Ctrl＋单击或双击**引用，滚动到当前文档对应的锚点；普通单击仍用于放置光标。需要修改地址时可切到源码视图。
-- 文内链接不执行浏览器页面导航，不打开文档目录或空白页面；目标缺失时显示“未找到文内跳转位置”。
-- 支持 `<a id="ref-10"></a>`、`name` 锚点、中文及编码后的 ID，并保留标题、块引用和脚注的原有定位方式；补充修复即时渲染模式的脚注标签解析。
-
-`#ref-10` 必须在文档内有对应目标。例如参考文献条目前可写：
-
-```markdown
-<a id="ref-10"></a>
-[10] 作者，文献题目……
-```
-
-文内引用的点击与样式处理只影响编辑器显示，不为正文猜测或生成参考文献。
-
-## 公式、加粗兼容与自动打开（0.4.0）
-
-- 原有 `$...$`、`$$...$$` 公式继续使用原解析规则，已有公式不会被重复包装。
-- 新增 `\(...\)` 行内公式和 `\[...\]` 独立公式的识别。
-- `（说明）`、`(x + y)` 等普通括号保留为文本；`(\epsilon)`、`(\frac{a}{b})` 等以已知数学命令开头的完整内容自动渲染，保留外面的普通括号。
-- `**文字 **`、`** 文字**`、`** 文字 **` 继续加粗；文字旁的空格保留，星号外原本有效的空格写法继续可用。没有闭合或只有空格的标记不强行转换。
-- 代码、转义示例、链接、HTML 注释、YAML 元数据等不参与兼容转换。
-- 粘贴后仍处于待渲染状态的公式自动刷新预览，不修改隐藏的公式源码。
-- 在 VS Code 中打开 Markdown 时自动进入轻墨；首次启动设置默认关联，保留其他文件类型的关联。
-
-打开或只保存但未编辑时，不会自动改写原文件。实际编辑保存后，编辑器会沿用自身的 Markdown 规范化行为：兼容的公式写法可能保存为 `$` / `$$`，加粗边缘的空格会移到星号外；公式含义和文字内容保留。源码视图使用原始 Markdown 编辑方式。KaTeX 不支持的命令、缺失括号等真正的公式语法错误不会被自动猜测修改。
-
-## 跟随光标的标记和紧凑外观
-
-- 所见即所得和即时渲染模式中，只有正在编辑的标题显示 `#`。标题文字保持原来的位置，显示、隐藏标记不改变缩进。
-- `**`、`*`、`~~` 和行内代码反引号只在光标所在的对应文字处显示；同一段落中其他格式文字保持正常阅读样式。
-- 换行提示随当前段落显示；正文失去焦点后隐藏提示。独立源码视图仍显示完整 Markdown 源码。
-- 恢复官方编辑器的标题比例和工具栏间距；默认正文 16px、行距 1.7，一级标题 28px。当前段落的背景、圆角更轻，右键菜单更紧凑并跟随编辑器主题。
-- 升级时仅迁移 0.1/0.2 内置的整组默认字体、字号、行距；其他已有排版设置保留。字体、字号、行距仍可在原有设置中调整。
-
-## 收起工具栏与快捷右键菜单
-
-- 点击完整工具栏末尾的向上箭头，收起工具栏。正文始终可以编辑，Ctrl+S 保存、Ctrl+F 查找继续可用。
-- 右上角直接保留两个图标：目录、展开工具栏。鼠标离开时淡化到 16%，进入周围 64 像素范围或键盘聚焦时恢复清晰。淡化程度固定，不新增设置。
-- 工具栏收起状态会被记住；点击目录图标可独立展开、收起目录。
-- 选中文字后右键：第一排为剪切、复制、粘贴、纯文本粘贴；第二排为加粗、斜体、删除线、字色、高亮、链接和清除格式。悬停显示名称与快捷键。
-- 段落格式默认展开，更多操作按需展开；两个区域可独立收起，菜单自动避开窗口边缘，Esc 关闭。
-- 普通粘贴按 Markdown 内容插入；纯文本粘贴对 Markdown 特殊字符进行转义。原组件可能规范化段落空白。
-- 原组件将带颜色的 HTML 文字作为一个整体处理，可以直接右键这块文字，再清除格式。源码视图中的右键菜单提供剪贴板操作，富文本按钮禁用。
-
-## 功能
-
-- 所见即所得、即时渲染，以及独立的 Markdown 源码视图。
-- 标题、粗体、斜体、删除线、链接、引用、列表、任务列表、表格、代码块、撤销重做、查找替换。
-- 目录导航、块拖动、表格操作、脚注、YAML frontmatter、本地 WikiLink 跳转。
-- 字体、字号、行距、页面宽度、浅色/深色主题、代码主题、打字机模式。
-- 字体颜色和背景色、图片宽高与拖拽缩放。
-- 粘贴/拖入/选择图片，保存到 Markdown 文件旁的 `assets` 文件夹。
-- KaTeX 数学公式、Mermaid 图表、Markmap 思维导图、本地 WikiLink 关系图与 SVG 导出。
-- 本地 HTML、PDF、DOCX 导出，支持目录、字体、字号、主题和 PDF 纸张/页边距。
-- `Ctrl+S` 保存、`Ctrl+B` 加粗、`Ctrl+F` 查找；`Ctrl+Alt+E` 切回 VS Code 文本编辑器。
-- 没有账号、订阅、激活服务和遥测；编辑器运行资源随插件打包。
-
-## 离线范围和边界
-
-- 本版范围是 **Markdown 编辑**，没有集成 Office Viewer 的 Excel、Word 文档编辑器、PDF 阅读器或 Git 工作区。
-- AI 润色、远程图床上传、需要服务器的 PlantUML 渲染不在离线功能范围内。
-- 为避免隐式联网，在线图片不会自动下载；使用本地图片或 data URI。本地资源必须位于文档目录或打开的工作区内。
-- 导出使用本机 **Edge/Chrome**，不会下载浏览器；找不到时在 `glassMarkdown.chromiumPath` 中指定路径。当前实现的 HTML/PDF/DOCX 三种导出都需要浏览器，以便在本地完成公式和图表排版。
-- DOCX 的公式和图表转换成图片，文字、标题和表格仍可编辑；不提供 Word 原生公式对象。
-- WikiLink 关系图扫描当前工作区最多 2,000 个 Markdown 文件。
-- 原编辑器会在编辑后规范化部分 Markdown 排版。打开但不编辑时不会写回文件；外部修改冲突时，将本地编辑保留到单独的未保存文档。
-- 图中换行箭头是编辑提示，不显示导出文件中每一个换行的占位符。
-
-## 源码与构建
-
-交付包含本插件的可编辑 JS/CSS 源码，以及运行所需的第三方发布资源。第三方编辑器使用打包后的 JS，不宣称这些压缩文件是原始 TypeScript 源码。来源、许可证与固定版本见 `THIRD_PARTY.md`。
-
-无需安装 npm 依赖即可运行插件。开发检查：
+The extension runs without an npm install. This tree has the editable JS/CSS for the extension and the third-party runtime assets it loads. Those third-party files are the packaged builds used at runtime. Licenses and versions are in [`THIRD_PARTY.md`](THIRD_PARTY.md).
 
 ```text
 npm run check
 npm test
+npm run package
+python3 scripts/package.py
 python scripts/package.py
 ```
 
-打包脚本使用 Python 标准库生成 VSIX 和源码 ZIP，不需要联网。`npm test` 运行默认编辑器、兼容解析、编辑交互、公式、表格、视图设置、剪切和备注等 28 组检查，使用已随包附带的 Playwright Core 和本机 Windows Edge 进行界面验证，不下载浏览器。其他平台可调整 `test/harness.cjs` 内的浏览器路径。
+- `npm run check` runs `node --check` on the extension sources.
+- `npm test` prints a short notice and exits successfully. The Playwright harness is absent from this public tree, so the script does not launch `node test/...`.
+- `npm run package` builds a VSIX with [`scripts/package.py`](scripts/package.py) (Python 3 standard library). `python3 scripts/package.py` is the direct command. On Windows, `python scripts/package.py` is the same script when `python` is Python 3.
+- When npm can reach the registry, `npx @vscode/vsce package` is the preferred packager. `scripts/package.py` is the offline helper. It writes the vsce archive layout (`extension/` prefix, `extension.vsixmanifest`, `[Content_Types].xml`) and skips `.git`, `node_modules`, VSIX outputs, and similar junk.
 
-## 验证
+Historical notes for the 0.4.5 table-copy and formula-preview fixes are in [`验证说明.md`](验证说明.md) (Chinese and English), using generic repro samples. Check the extension in VS Code as well.
 
-0.4.14 的验证详情见交付的 `验证说明-0.4.14.md`，新增 23 项备注边界及再次点击检查，并复测 156 项相关行为，共 179 项通过；0.4.10 完整验证覆盖 329 项行为。浏览器测试运行实际编辑器前端，VS Code 消息与剪贴板宿主由测试适配器模拟；不等同于在真实 VS Code 窗口中逐项人工测试。完整功能逐项等价性不应仅由这些测试推断。
+### License
 
-标题左侧的小箭头支持分级折叠；鼠标靠近时淡入，远离后透明。备注区默认显示一级标题，也可独立折叠。折叠仅影响当前阅读视图，源码、导出和打印保留完整内容。
+MIT. See [`LICENSE`](LICENSE) and [`THIRD_PARTY.md`](THIRD_PARTY.md). The upstream Office Viewer / Vditor MIT notice stays in [`licenses/office-viewer-MIT.txt`](licenses/office-viewer-MIT.txt).
+
+## 中文
+
+### 这是什么
+
+轻墨在本机编辑 Markdown，可用于 VS Code 和 Cursor。扩展 ID：`local-glass.glass-markdown`。它基于 Office Viewer 4.2.0 随附、MIT 许可的 Markdown / Vditor 文件制作，是独立扩展。原来的 Office Viewer 可以继续保留；此插件使用自己的 ID 和显示名称。
+
+标题通过字号、字重和留白区分层级，并随正文字号同步缩放。浅灰 `#`，以及加粗、斜体、删除线和行内代码的标记，只在光标位于对应文字时显示。这些提示不写入 Markdown 文件。标记透明度固定。
+
+### 安装
+
+从 GitHub Release 安装已经打包好的 VSIX。
+
+1. 打开 [v0.4.28 发布页](https://github.com/ddftfft8602/glass-markdown/releases/tag/v0.4.28)，下载 [`glass-markdown-0.4.28.vsix`](https://github.com/ddftfft8602/glass-markdown/releases/download/v0.4.28/glass-markdown-0.4.28.vsix)。
+2. 在 VS Code 或 Cursor 中执行 **扩展：从 VSIX 安装…**（Extensions: Install from VSIX…）。
+3. 选择 `glass-markdown-0.4.28.vsix`，然后执行 **开发人员：重新加载窗口**（Developer: Reload Window）。
+4. 首次启动会把 `.md`、`.markdown`、`.mdown` 关联到 **Glass Markdown · 轻墨**。之后打开 Markdown 文件即可进入编辑器。
+5. 如果升级前标签已经打开，请关闭后再打开一次。工作区或单个文件自己的编辑器关联优先级更高，可在标签的“重新打开方式 → 配置默认编辑器”中调整。
+
+默认关联只写入一次。之后手动选择其他编辑器时，启动不会把它改回来。需要重新设置时，执行 **Glass Markdown: 设为默认 Markdown 编辑器**。仍可从“重新打开方式”打开文本编辑器查看源码。
+
+### 功能概要
+
+- 所见即所得、即时渲染，以及独立的 Markdown 源码视图。
+- 标题、粗体、斜体、删除线、链接、引用、列表、任务列表、表格、代码块、撤销重做、查找替换。
+- 目录、块拖动、表格操作、脚注与文字备注、YAML front matter、本地 WikiLink 跳转。
+- 字体、字号、行距、段间距、页面宽度、浅色/深色主题、代码主题、打字机模式。
+- 字体颜色和背景色、图片宽高与拖拽缩放。
+- 粘贴、拖入或选择图片，保存到 Markdown 文件旁的 `assets` 文件夹。
+- KaTeX 数学公式、Mermaid 图表、Markmap 思维导图、本地 WikiLink 关系图与 SVG 导出。
+- 本地 HTML、PDF、DOCX 导出，支持目录、字体、字号、主题和 PDF 纸张/页边距。
+- 可选：粘贴时识别没有美元符号的 LaTeX（默认关闭；齿轮设置 → 公式识别）。
+- 按源码搜索公式、跟随光标的语法标记、可收起工具栏和紧凑右键菜单。
+- `Ctrl+S` 保存、`Ctrl+B` 加粗、`Ctrl+F` 查找；`Ctrl+Alt+E` 切回 VS Code 文本编辑器。
+- 没有账号、订阅、激活服务和遥测。编辑器运行资源随插件打包。
+
+版本记录见 [`CHANGELOG.md`](CHANGELOG.md)。
+
+### 性能说明
+
+在一份约 171 KB、含 515 处行内公式的示例文档上，所见即所得模式输入结束后的最长主线程任务从 1568 ms 降到 241 ms；即时渲染模式输入响应中位数从 241 ms 降到 164 ms。在一份约 61 KB 的示例文档上，两种编辑模式各测 6 次，公式展开到后续绘制帧的中位数从约 306 ms / 434 ms 降到 193 ms / 259 ms。测量使用真实编辑器页面和模拟的 VS Code 消息端。输入响应按按键到第二个动画帧近似。结果会随机器、文档和负载变化。超长文档仍可能短暂停顿。
+
+### 离线范围
+
+本版编辑 Markdown。Office Viewer 的 Excel、Word、PDF 编辑，以及 Git 工作区，不在这个扩展里。
+
+AI 润色、远程图床上传、需要服务器的 PlantUML 渲染不在离线功能范围内。请使用本地图片或 data URI；在线图片保持为链接，扩展不会去下载它们。本地资源必须位于文档目录或打开的工作区内。
+
+导出使用本机 Edge 或 Chrome，扩展本身不下载浏览器。找不到时，在 `glassMarkdown.chromiumPath` 中指定路径。HTML、PDF、DOCX 三种导出都使用该浏览器，以便在本地完成公式和图表排版。DOCX 里的公式和图表会变成图片；文字、标题和表格仍可编辑。没有 Word 原生公式对象。
+
+WikiLink 关系图最多扫描当前工作区 2,000 个 Markdown 文件。编辑后保存时，编辑器可能规范化部分 Markdown。只打开、不编辑时不会写回文件。外部修改冲突时，本地编辑保留在单独的未保存文档里。编辑器中的换行箭头是当前段落的提示。
+
+### 构建与开发
+
+运行插件不需要 `npm install`。仓库包含本插件可编辑的 JS/CSS，以及运行时加载的第三方资源。这些第三方文件是运行时使用的打包结果。许可证和版本见 [`THIRD_PARTY.md`](THIRD_PARTY.md)。
+
+```text
+npm run check
+npm test
+npm run package
+python3 scripts/package.py
+python scripts/package.py
+```
+
+- `npm run check` 对扩展源码执行 `node --check`。
+- `npm test` 打印一句说明并成功退出。完整 Playwright 测试套件不在这个公开仓库里，因此不会执行 `node test/...`。
+- `npm run package` 用 [`scripts/package.py`](scripts/package.py) 打包 VSIX（仅 Python 3 标准库）。直接运行的命令是 `python3 scripts/package.py`。在 Windows 上，当 `python` 指向 Python 3 时，使用 `python scripts/package.py`。
+- npm 可以访问注册表时，优先使用 `npx @vscode/vsce package`。`scripts/package.py` 是离线辅助脚本，按 vsce 的压缩包布局写入（`extension/` 前缀、`extension.vsixmanifest`、`[Content_Types].xml`），并跳过 `.git`、`node_modules`、VSIX 产物和类似的无关文件。
+
+0.4.5 表格复制与公式预览的历史验证说明见 [`验证说明.md`](验证说明.md)（中英双语），复现材料是通用示例。请同时在 VS Code 里实际打开插件确认。
+
+### 许可证
+
+MIT。见 [`LICENSE`](LICENSE) 与 [`THIRD_PARTY.md`](THIRD_PARTY.md)。上游 Office Viewer / Vditor 的 MIT 声明保留在 [`licenses/office-viewer-MIT.txt`](licenses/office-viewer-MIT.txt)。
