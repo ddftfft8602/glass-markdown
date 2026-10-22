@@ -1,0 +1,5 @@
+﻿node_modules/
+.vsix
+*.vsix
+.DS_Store
+Thumbs.db

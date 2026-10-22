@@ -1,0 +1,177 @@
+/* Editor typography with a distinct, body-relative heading hierarchy. */
+.vditor{--glass-muted:color-mix(in srgb,var(--front-color,#24292e) 36%,transparent);--glass-active:color-mix(in srgb,var(--front-color,#24292e) 2.4%,transparent)}
+html,body{height:100%;margin:0}
+.vditor{border:0!important;border-radius:0;font-family:var(--vscode-font-family,"Segoe UI","Microsoft YaHei UI",sans-serif)}
+.vditor-content{position:relative}
+.vditor .vditor-reset{padding:22px 60px 96px!important;font-family:var(--editor-font-family,inherit);font-size:var(--editor-font-size,16px);line-height:var(--editor-line-height,1.7)}
+.vditor-reset>:first-child{margin-top:0}
+.vditor-reset>.vditor-editor-boundary:first-child+*{margin-top:0}
+.vditor-reset :is(h1,h2,h3,h4,h5,h6){position:relative}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset :is(h1,h2,h3,h4,h5,h6){line-height:1.35;color:inherit;padding-bottom:0;border-bottom:0}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h1{font-size:1.875em;font-weight:700;margin-top:1.6em;margin-bottom:.65em;padding-bottom:.3em;border-bottom:1px solid color-mix(in srgb,var(--textarea-text-color,#242429) 14%,transparent)}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h2{font-size:1.5625em;font-weight:700;margin-top:1.5em;margin-bottom:.6em}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h3{font-size:1.3125em;font-weight:600;margin-top:1.35em;margin-bottom:.55em}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h4{font-size:1.125em;font-weight:600;margin-top:1.2em;margin-bottom:.5em}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h5{font-size:1em;font-weight:700;margin-top:1.1em;margin-bottom:.45em}
+:where(.vditor-wysiwyg,.vditor-ir) .vditor-reset h6{font-size:1em;font-weight:600;margin-top:1em;margin-bottom:.45em;color:color-mix(in srgb,var(--textarea-text-color,#242429) 72%,var(--textarea-background-color,#fff))}
+.vditor :is(.vditor-wysiwyg,.vditor-ir) .vditor-reset>:is(h1,h2,h3,h4,h5,h6):first-child,
+.vditor :is(.vditor-wysiwyg,.vditor-ir) .vditor-reset>.vditor-editor-boundary:first-child+:is(h1,h2,h3,h4,h5,h6){margin-top:0}
+.vditor-reset .glass-active-block{background:var(--glass-active);border-radius:4px}
+/* Markers are presentation only: show them at the caret, never on hover alone. */
+.vditor-wysiwyg .vditor-reset h1::before{content:"#"!important}
+.vditor-wysiwyg .vditor-reset h2::before{content:"##"!important}
+.vditor-wysiwyg .vditor-reset h3::before{content:"###"!important}
+.vditor-wysiwyg .vditor-reset h4::before{content:"####"!important}
+.vditor-wysiwyg .vditor-reset h5::before{content:"#####"!important}
+.vditor-wysiwyg .vditor-reset h6::before{content:"######"!important}
+.vditor-wysiwyg .vditor-reset :is(h1,h2,h3,h4,h5,h6)::before{visibility:hidden!important;pointer-events:none;position:absolute;left:auto;right:calc(100% + 12px);top:.08em;min-width:0;height:auto;margin:0;padding:0;color:var(--glass-muted)!important;background:transparent;opacity:1;font-family:ui-monospace,monospace;font-size:.62em;font-weight:400;white-space:nowrap}
+.vditor-wysiwyg .vditor-reset :is(h1,h2,h3,h4,h5,h6).glass-caret-heading::before{visibility:visible!important}
+.vditor-ir .vditor-reset :is(h1,h2,h3,h4,h5,h6)::before{content:none!important}
+.vditor-ir .vditor-ir__marker--heading{display:none!important}
+.vditor-ir .glass-caret-heading>.vditor-ir__marker--heading{display:inline!important;position:absolute;right:calc(100% + 12px);top:.08em;font:400 .62em/1.25 ui-monospace,monospace;white-space:nowrap}
+.vditor-ir__marker{color:var(--glass-muted)!important}
+.vditor-ir .vditor-ir__node:is([data-type=strong],[data-type=em],[data-type=s],[data-type=code]):not(.glass-caret-node)>.vditor-ir__marker{width:0;height:0;overflow:hidden;display:inline-block}
+/* References stay readable even with the caret inside: keep the literal [10],
+   hide only Markdown delimiters, escapes and the destination. Source is intact. */
+.vditor-ir .glass-citation>.vditor-ir__marker,.vditor-ir .glass-citation [data-type=backslash]>.vditor-ir__marker{display:none!important}
+.vditor .vditor-reset .glass-citation,.vditor .vditor-reset .glass-citation .vditor-ir__link{color:var(--link-color,#0366d6)!important;background:transparent!important;padding:0!important;border:0;box-shadow:none;text-decoration:none;font-size:inherit}
+.vditor .vditor-reset .glass-citation:hover{text-decoration:underline}
+/* A fenced math preview is a displayed equation, not a shaded source block.
+   Inline math and hidden/editable source are deliberately excluded. */
+.vditor-reset pre>code.language-math[data-math]{background:none!important;color:var(--textarea-text-color,inherit);font-size:100%;padding:0;border-radius:0;white-space:normal}
+/* A zero-size inline-block still creates a line box in IR. Closed math fences
+   must remove the source PRE from layout, just like native $$ math blocks. */
+.vditor-ir [data-type=code-block]:not(.vditor-cm-block--editing)>pre.vditor-ir__marker--pre:has(>code.language-math){display:none!important}
+.vditor-wysiwyg .glass-caret-format:is(strong,em,s,del,code)::before,.vditor-wysiwyg .glass-caret-format:is(strong,em,s,del,code)::after{color:var(--glass-muted);font-size:.65em;font-weight:400;font-style:normal;pointer-events:none}
+.vditor-wysiwyg strong.glass-caret-format::before,.vditor-wysiwyg strong.glass-caret-format::after{content:"**"}
+.vditor-wysiwyg em.glass-caret-format::before,.vditor-wysiwyg em.glass-caret-format::after{content:"*"}
+.vditor-wysiwyg :is(s,del).glass-caret-format::before,.vditor-wysiwyg :is(s,del).glass-caret-format::after{content:"~~"}
+.vditor-wysiwyg code.glass-caret-format::before,.vditor-wysiwyg code.glass-caret-format::after{content:"`"}
+.vditor-wysiwyg .vditor-reset :is(h1,h2,h3,h4,h5,h6,p).glass-active-block::after{content:"↵";color:var(--glass-muted);font-size:.7em;margin-left:.2em;pointer-events:none}
+.vditor-block-handle{transform:translateX(-30px)}
+.vditor-export-pro-header,[data-type="ai-settings"],[data-action="aiPolish"]{display:none!important}
+.glass-source-open .vditor-content>:not(#glass-source){visibility:hidden}
+#glass-source{position:absolute;inset:0;width:100%;height:100%;box-sizing:border-box;resize:none;border:0;outline:0;padding:22px 60px;font:var(--vscode-editor-font-size,14px)/1.7 var(--vscode-editor-font-family,Consolas,monospace);color:var(--vscode-editor-foreground,#232327);background:var(--vscode-editor-background,#fff);tab-size:4}
+@media(max-width:640px){.vditor .vditor-reset{padding:18px 44px 80px!important}#glass-source{padding:18px 24px}}
+
+/* Compact mode retains the editable document and the native formatting panels. */
+.glass-compact .vditor-toolbar{height:0!important;min-height:0!important;max-height:0!important;padding:0!important;border:0!important;overflow:visible!important;visibility:hidden;flex-shrink:0}
+#glass-floating-tools{position:fixed;top:12px;right:26px;display:flex;gap:2px;padding:4px;border:1px solid color-mix(in srgb,var(--front-color,#242429) 9%,transparent);border-radius:12px;background:var(--textarea-background-color,#fff);color:var(--textarea-text-color,#242429);box-shadow:0 2px 10px #0000000a;opacity:.16;transition:opacity .22s ease,box-shadow .22s ease;z-index:90}
+#glass-floating-tools[hidden]{display:none}
+#glass-floating-tools.is-near,#glass-floating-tools:hover,#glass-floating-tools:focus-within{opacity:1;box-shadow:var(--panel-shadow,0 2px 10px #00000012)}
+#glass-floating-tools button{width:30px;height:30px;border:0;background:transparent;color:inherit;border-radius:7px;cursor:pointer;display:grid;place-items:center}
+#glass-floating-tools button:hover,#glass-floating-tools button[aria-pressed=true]{background:color-mix(in srgb,var(--front-color,#242429) 8%,transparent)}
+.glass-context-menu{width:272px;min-width:0;max-width:calc(100vw - 16px);box-sizing:border-box;padding:7px;border:1px solid color-mix(in srgb,var(--front-color,#242429) 9%,transparent);border-radius:var(--vditor-popover-radius,8px);background:var(--menu-background-color,#fafafa);color:var(--textarea-text-color,#242429);box-shadow:var(--panel-shadow,0 4px 16px #00000015);overflow:auto;max-height:calc(100vh - 16px)}
+.glass-menu-row{display:flex;align-items:center;justify-content:space-between;gap:3px;padding:4px 0}
+.glass-menu-row button{flex:1;min-width:0;height:30px;display:grid;place-items:center;border:0;border-radius:7px;color:inherit;background:transparent;cursor:pointer}
+.glass-menu-row .codicon{font-size:16px}
+.glass-clipboard-row{border-bottom:1px solid color-mix(in srgb,var(--front-color,#242429) 9%,transparent);padding-bottom:7px;margin-bottom:3px}
+.glass-menu-row button:hover:not(:disabled),.glass-menu-footer button:hover,.glass-subpanel button:hover:not(:disabled){background:color-mix(in srgb,var(--front-color,#242429) 7%,transparent)}
+.glass-context-menu button:disabled{opacity:.3;cursor:default}
+.glass-context-menu button:focus-visible,#glass-floating-tools button:focus-visible{outline:2px solid var(--vscode-focusBorder,#4a86e8);outline-offset:-2px}
+.glass-menu-footer{display:flex;justify-content:space-between;border-top:1px solid color-mix(in srgb,var(--front-color,#242429) 9%,transparent);padding-top:5px;margin-top:3px;gap:8px}
+.glass-menu-footer button{border:0;border-radius:6px;background:transparent;color:inherit;font:inherit;font-size:12px;cursor:pointer;padding:6px 8px;display:flex;align-items:center;gap:5px}
+.glass-subpanel{padding-top:7px;margin-top:5px;border-top:1px solid color-mix(in srgb,var(--front-color,#242429) 9%,transparent)}
+.glass-subpanel[hidden]{display:none!important}
+.glass-heading-row{display:flex;gap:2px}
+.glass-heading-row button{flex:1;border:0;border-radius:6px;padding:7px 0;font:inherit;font-size:12px;color:inherit;background:transparent;cursor:pointer}
+.glass-more-panel{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.glass-more-panel button{border:0;border-radius:6px;padding:9px 5px;background:transparent;color:inherit;font:inherit;font-size:12px;text-align:left;cursor:pointer;white-space:nowrap}
+.vditor .glass-native-panel{position:fixed!important;visibility:visible!important;z-index:10001!important;transform:none!important;left:var(--glass-popup-x,8px)!important;top:var(--glass-popup-y,8px)!important;right:auto!important;bottom:auto!important;margin:0!important;max-width:calc(100vw - 16px);max-height:calc(100vh - 16px);overflow:auto}
+.vditor .glass-native-panel:before,.vditor .glass-native-panel:after{display:none!important}
+.glass-compact .vditor-find-bar{position:fixed;top:58px;right:22px;left:auto;visibility:visible;z-index:95;max-width:calc(100vw - 32px);box-sizing:border-box}
+@media(pointer:coarse){#glass-floating-tools{opacity:.6}}
+@media(prefers-reduced-motion:reduce){#glass-floating-tools{transition:none}}
+
+/* Opt-in paragraph spacing leaves the original theme untouched by default. */
+.vditor.glass-paragraphSpacingBefore .vditor-reset p{margin-top:var(--glass-paragraphSpacingBefore)!important}
+.vditor.glass-paragraphSpacingAfter .vditor-reset p{margin-bottom:var(--glass-paragraphSpacingAfter)!important}
+.glass-spacing-input{box-sizing:border-box;width:72px;padding:4px 6px;border:1px solid var(--border-color,#ddd);border-radius:5px;color:var(--textarea-text-color);background:var(--textarea-background-color);font:inherit}
+.glass-paragraph-settings small{font-weight:400;opacity:.65}
+.glass-spacing-reset{display:block;margin:4px 0 7px auto;padding:3px 0;border:0;background:transparent;color:var(--link-color,#0366d6);font:inherit;font-size:11px;cursor:pointer}
+.glass-image-preview{opacity:1;transition:none;touch-action:none;overflow:hidden}
+.glass-image-preview.vditor-img-overlay--closing{opacity:0}
+.glass-image-preview .vditor-img-overlay__backdrop{backdrop-filter:none}
+.glass-image-preview .vditor-img-overlay__stage{position:absolute;inset:64px 16px 36px;width:auto;height:auto;padding:0;overflow:hidden;touch-action:none;cursor:grab}
+.glass-image-preview .vditor-img-overlay__stage.is-dragging{cursor:grabbing}
+.glass-image-preview .vditor-img-overlay__image{position:absolute;left:50%;top:50%;max-width:none;max-height:none;border-radius:0;box-shadow:none;opacity:1;transition:none;transform-origin:center;will-change:transform;pointer-events:auto}
+.glass-image-preview .vditor-img-overlay__toolbar{opacity:1;transform:none;transition:none;backdrop-filter:none;flex-wrap:wrap;justify-content:center}
+.glass-image-preview .glass-image-scale{min-width:58px;justify-content:center;font-variant-numeric:tabular-nums}
+.glass-image-preview .vditor-img-overlay__btn:disabled{opacity:.4;cursor:default}
+.glass-image-preview .vditor-img-overlay__btn:focus-visible{outline:2px solid var(--img-preview-accent);outline-offset:-2px}
+.glass-image-hint{position:absolute;bottom:10px;left:8px;right:8px;text-align:center;color:#fff;font-size:12px;pointer-events:none;opacity:.8}
+@media(max-width:540px){.glass-image-preview .vditor-img-overlay__chrome{padding:8px 6px 0}.glass-image-preview .vditor-img-overlay__btn{padding:0 7px}.glass-image-preview .vditor-img-overlay__stage{top:88px}}
+@media(prefers-reduced-motion:reduce){.glass-image-preview{transition:none}}
+
+/* Footnote cards share the editor theme but never belong to its editable DOM. */
+.glass-footnote-popup{position:fixed;z-index:10020;box-sizing:border-box;width:var(--glass-notePopupWidth,360px);max-width:calc(100vw - 16px);max-height:min(var(--glass-notePopupHeight,420px),calc(100vh - 16px));display:flex;flex-direction:column;padding:12px 15px;border:1px solid var(--border-color,#ddd);border-radius:10px;background:var(--menu-background-color,#fafafa);color:var(--textarea-text-color,#242429);box-shadow:var(--panel-shadow,0 4px 20px #0000001a);font-size:var(--glass-noteFontSize,14px);line-height:1.65;font-family:var(--editor-font-family,inherit);white-space:normal;outline:none}
+.glass-footnote-popup>header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:7px;font-size:12px;color:var(--textarea-text-color,#242429)}
+.glass-footnote-popup>header>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;opacity:.65}
+.glass-footnote-popup button{width:26px;height:26px;flex-shrink:0;border:0;border-radius:5px;background:transparent;color:inherit;font-size:20px;line-height:1;cursor:pointer}
+.glass-footnote-popup button:hover{background:color-mix(in srgb,currentColor 8%,transparent)}
+.glass-note-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.glass-footnote-popup .glass-note-delete{width:auto;padding:0 7px;font-size:12px;color:var(--textarea-text-color,#242429)}
+.glass-footnote-popup .glass-note-delete:hover{color:#c62828;background:#c6282812}
+.glass-footnote-popup button:focus-visible,.vditor [data-type=footnotes-ref]:focus-visible{outline:2px solid var(--link-color,#0366d6);outline-offset:2px}
+.glass-footnote-content{overflow:auto;overscroll-behavior:contain;overflow-wrap:anywhere;user-select:text}
+.glass-footnote-content p{margin:0 0 .65em}.glass-footnote-content p:last-child{margin-bottom:0}
+.glass-footnote-content pre{overflow:auto;padding:8px;border-radius:4px;background:color-mix(in srgb,currentColor 4%,transparent)}
+.glass-footnote-content a{color:var(--link-color,#0366d6)}.glass-footnote-content img{max-width:100%}
+.glass-footnote-content table{border-collapse:collapse}.glass-footnote-content td,.glass-footnote-content th{border:1px solid var(--border-color,#ddd);padding:3px 6px}
+.vditor [data-type=footnotes-ref]{cursor:pointer}.vditor .glass-note-open::before,.vditor .glass-note-open::after{display:none!important}
+.vditor .glass-text-note-ref{display:none!important}
+.vditor-reset [data-glass-note-origin]::before{content:attr(data-glass-note-origin) "：";font-weight:600;color:var(--textarea-text-color,#242429);opacity:.7;overflow-wrap:anywhere}
+.vditor-ir .glass-text-note>.vditor-ir__marker{display:none!important}
+.vditor .glass-text-note,.vditor .glass-text-note .vditor-ir__link{color:var(--link-color,#0366d6)!important;text-decoration:none!important;background:transparent!important;cursor:pointer}
+.vditor .glass-text-note .language-math{color:inherit}
+.glass-note-dialog-backdrop{position:fixed;inset:0;z-index:10030;display:grid;place-items:center;background:#0003}
+.glass-note-dialog{box-sizing:border-box;width:430px;max-width:calc(100vw - 24px);padding:20px;border-radius:10px;background:var(--menu-background-color,#fafafa);color:var(--textarea-text-color,#242429);box-shadow:var(--panel-shadow);font-size:14px}
+.glass-note-dialog h3{margin:0 0 8px;font-size:17px}.glass-note-dialog p{font-size:12px;opacity:.7;line-height:1.6}
+.glass-note-dialog label{display:block;margin:12px 0 6px}.glass-note-dialog label span{font-size:11px;opacity:.6}
+.glass-note-dialog textarea{box-sizing:border-box;width:100%;min-height:100px;max-height:40vh;resize:vertical;border:1px solid var(--border-color,#ddd);border-radius:5px;padding:8px;font:inherit;line-height:1.6;background:var(--textarea-background-color,#fff);color:inherit}
+.glass-note-dialog select{box-sizing:border-box;width:100%;padding:8px;border:1px solid var(--border-color,#ddd);border-radius:5px;font:inherit;color:inherit;background:var(--textarea-background-color,#fff)}
+.glass-note-dialog .glass-note-reuse-preview{display:block;max-height:190px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;margin:12px 0;padding:10px;border:1px solid var(--border-color,#ddd);border-radius:5px;font-size:13px;line-height:1.6}
+.glass-note-dialog [hidden]{display:none!important}
+.glass-note-dialog>div{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.glass-note-dialog button{padding:6px 15px;border:1px solid var(--border-color,#ddd);border-radius:5px;font:inherit;color:inherit;background:transparent;cursor:pointer}.glass-note-dialog button[type=submit]{background:var(--link-color,#0366d6);color:#fff;border-color:transparent}
+.glass-note-settings-heading{margin:10px 0 5px;padding-top:9px;border-top:1px solid var(--border-color,#ddd);font-size:12px;font-weight:600}
+.glass-latex-setting{display:flex;align-items:center;gap:7px;font-size:12px;cursor:pointer}
+.glass-latex-help{font-size:11px;opacity:.65;line-height:1.5;margin:5px 0 10px;max-width:280px;white-space:normal}
+/* Endnotes sit quietly below prose. Labels are
+   generated content, so they never enter Markdown, selection or undo history. */
+.vditor .vditor-reset [data-type="footnotes-block"]{
+  margin-top:2.4em;padding:12px 0 0;border:0;border-top:1px solid color-mix(in srgb,var(--textarea-text-color,#242429) 14%,transparent);border-radius:0;
+  background:transparent;color:color-mix(in srgb,var(--textarea-text-color,#242429) 65%,var(--textarea-background-color,#fff));
+  font-size:.875em;line-height:1.65
+}
+.vditor .vditor-reset [data-type="footnotes-block"]::before{
+  content:"备注"!important;position:static!important;float:none!important;display:block!important;width:auto!important;height:auto!important;margin:0 0 10px!important;padding:0!important;transform:none!important;font-size:12px!important;line-height:1.5!important;font-weight:400;letter-spacing:.06em;color:inherit!important
+}
+.vditor-reset [data-type="footnotes-block"]:focus-within,.vditor-reset [data-type="footnotes-block"]:has(.glass-active-block){color:var(--textarea-text-color,#242429)}
+.vditor-reset [data-type="footnotes-block"] :is(h1,h2,h3,h4,h5,h6){font-size:1em;font-weight:600;line-height:1.65;margin-top:24px;margin-bottom:16px;padding-bottom:0;color:inherit;border:0}
+.vditor-reset [data-type="footnotes-block"] :is(a,.vditor-ir__link){color:inherit}
+.vditor-reset [data-type="footnotes-block"] [data-type="footnotes-li"]+ [data-type="footnotes-li"]{
+  margin-top:10px;padding-top:0;border-top:0
+}
+.vditor-reset [data-glass-note-origin]::before{content:"关联正文 · " attr(data-glass-note-origin) "：";font-size:.9em;font-weight:400;color:inherit;opacity:.8}
+.glass-footnote-popup{border-color:color-mix(in srgb,var(--link-color,#0366d6) 32%,var(--border-color,#ddd));border-top:3px solid var(--link-color,#0366d6);background:color-mix(in srgb,var(--link-color,#0366d6) 5%,var(--menu-background-color,#fafafa))}
+.glass-footnote-popup>header{padding-bottom:8px;margin-bottom:10px;border-bottom:1px solid color-mix(in srgb,currentColor 14%,transparent)}
+.glass-footnote-popup>header>span{opacity:1;font-weight:700;color:var(--link-color,#0366d6)}
+.vditor .glass-text-note{background:transparent!important}
+.glass-heading-folds{position:fixed;inset:0;z-index:12;pointer-events:none}
+.glass-heading-fold{position:fixed;display:grid;place-items:center;width:20px;height:20px;padding:0;border:0;border-radius:4px;background:transparent;color:var(--textarea-text-color,#6b7280);opacity:0;transition:opacity .18s ease;pointer-events:auto;cursor:pointer}
+.glass-heading-fold[hidden]{display:none}
+.glass-heading-fold.glass-fold-near{opacity:.38}
+.glass-heading-fold:hover,.glass-heading-fold:focus-visible{opacity:.85;background:color-mix(in srgb,currentColor 7%,transparent)}
+.glass-heading-fold:focus-visible{outline:1px solid var(--link-color,#0366d6);outline-offset:2px}
+.glass-heading-fold>span{width:5px;height:5px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(-45deg);transition:transform .14s ease}
+.glass-heading-fold[aria-expanded=true]>span{transform:rotate(45deg) translate(-1px,-1px)}
+.glass-source-open .glass-heading-folds{display:none}
+@media(prefers-reduced-motion:reduce){.glass-heading-fold,.glass-heading-fold>span{transition:none}}
+@media print{.glass-heading-folds{display:none}}
+.glass-find-formula{position:fixed;box-sizing:border-box;z-index:9;pointer-events:none;border:1px solid color-mix(in srgb,var(--link-color,#0366d6) 45%,transparent);border-radius:4px;background:color-mix(in srgb,var(--link-color,#0366d6) 9%,transparent)}
+.glass-find-formula[hidden],.glass-source-open .glass-find-formula{display:none}
+@media print{.glass-find-formula{display:none}}
+
+/* Selected image: arrow keys place the caret before/after this image. */
+.vditor-reset img.glass-image--selected{outline:2px solid var(--link-color,#0366d6);outline-offset:2px;border-radius:2px}

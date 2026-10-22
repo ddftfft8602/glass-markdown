@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
+<Metadata><Identity Language="en-US" Id="glass-markdown" Version="0.4.28" Publisher="local-glass"/>
+<DisplayName>Glass Markdown · 轻墨</DisplayName><Description xml:space="preserve">本地 Markdown 编辑器：光标位置的轻灰语法提示、所见即所得、公式图表和离线导出。</Description>
+<Tags>markdown,wysiwyg,offline</Tags><Categories>Other</Categories><GalleryFlags>Public</GalleryFlags>
+<Properties><Property Id="Microsoft.VisualStudio.Code.Engine" Value="^1.85.0"/>
+<Property Id="Microsoft.VisualStudio.Code.ExtensionKind" Value="workspace"/></Properties>
+<License>extension/LICENSE</License></Metadata>
+<Installation><InstallationTarget Id="Microsoft.VisualStudio.Code"/></Installation><Dependencies/>
+<Assets><Asset Type="Microsoft.VisualStudio.Code.Manifest" Path="extension/package.json" Addressable="true"/>
+<Asset Type="Microsoft.VisualStudio.Services.Content.Details" Path="extension/README.md" Addressable="true"/>
+<Asset Type="Microsoft.VisualStudio.Services.Content.License" Path="extension/LICENSE" Addressable="true"/></Assets>
+</PackageManifest>
